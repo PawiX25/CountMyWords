@@ -1,20 +1,27 @@
 function countWords() {
-    var inputText = document.getElementById("input").value;
+    var inputText = document.getElementById("input").value.trim();
     
-    if (inputText.trim() === '') {
+    if (inputText === '') {
         document.getElementById("result").innerHTML = "Please enter some text.";
         return;
     }
 
-    var words = inputText.trim().split(/\s+/).filter(word => word.length > 0);
+    var words = inputText.split(/\s+/).filter(word => word.length > 0);
     var wordCount = words.length;
     var charCount = inputText.replace(/\s/g, '').length;
     var avgWordLength = wordCount > 0 ? (charCount / wordCount).toFixed(2) : 0;
 
+    var sentenceCount = (inputText.match(/[.!?]/g) || []).length;
+    var longestWord = words.reduce((a, b) => a.length > b.length ? a : b, "");
+    var shortestWord = words.reduce((a, b) => a.length < b.length ? a : b, "");
+
     document.getElementById("result").innerHTML = `
         <strong>Word count:</strong> ${wordCount}<br>
         <strong>Character count (excluding spaces):</strong> ${charCount}<br>
-        <strong>Average word length:</strong> ${avgWordLength}
+        <strong>Average word length:</strong> ${avgWordLength}<br>
+        <strong>Sentence count:</strong> ${sentenceCount}<br>
+        <strong>Longest word:</strong> ${longestWord}<br>
+        <strong>Shortest word:</strong> ${shortestWord}
     `;
 }
 
