@@ -1,9 +1,21 @@
 function countWords() {
     var inputText = document.getElementById("input").value;
+    
+    if (inputText.trim() === '') {
+        document.getElementById("result").innerHTML = "Please enter some text.";
+        return;
+    }
+
     var words = inputText.trim().split(/\s+/).filter(word => word.length > 0);
     var wordCount = words.length;
     var charCount = inputText.replace(/\s/g, '').length;
-    document.getElementById("result").innerHTML = "Word count: " + wordCount + "<br>Character count: " + charCount;
+    var avgWordLength = wordCount > 0 ? (charCount / wordCount).toFixed(2) : 0;
+
+    document.getElementById("result").innerHTML = `
+        <strong>Word count:</strong> ${wordCount}<br>
+        <strong>Character count (excluding spaces):</strong> ${charCount}<br>
+        <strong>Average word length:</strong> ${avgWordLength}
+    `;
 }
 
 document.getElementById("input").addEventListener("input", debounce(countWords, 500));
