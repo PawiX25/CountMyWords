@@ -5,16 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Count</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .input-field:focus {
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 115, 255, 0.3);
+        }
+    </style>
 </head>
 <body class="bg-gradient-to-r from-blue-400 to-purple-500 min-h-screen flex items-center justify-center">
-    <div class="bg-white p-10 rounded-lg shadow-lg w-full max-w-lg">
-        <h1 class="text-4xl font-bold mb-5 text-center text-gray-800">Word Count</h1>
+    <div class="bg-white p-12 rounded-lg shadow-2xl w-full max-w-lg">
+        <h1 class="text-5xl font-extrabold mb-6 text-center text-gray-800">Word Count</h1>
         
-        <textarea id="input" rows="10" class="w-full p-4 border border-gray-300 rounded mb-5 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        <textarea id="input" rows="10" class="w-full p-5 border border-gray-300 rounded-lg mb-6 resize-none input-field focus:outline-none transition duration-300 ease-in-out"></textarea>
         
-        <button id="countButton" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Count</button>
+        <button id="countButton" class="w-full bg-blue-600 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500">Count</button>
         
-        <p id="result" class="mt-5 text-lg text-center text-gray-700"></p>
+        <p id="result" class="mt-6 text-xl text-center text-gray-800 font-medium"></p>
     </div>
     
     <script src="script.js"></script>
