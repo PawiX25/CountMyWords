@@ -1,6 +1,6 @@
 function countWords() {
     var inputText = document.getElementById("input").value.trim();
-    
+
     if (inputText === '') {
         document.getElementById("result").innerHTML = "Please enter some text.";
         return;
@@ -15,13 +15,26 @@ function countWords() {
     var longestWord = words.reduce((a, b) => a.length > b.length ? a : b, "");
     var shortestWord = words.reduce((a, b) => a.length < b.length ? a : b, "");
 
+    var wordFrequency = {};
+    words.forEach(word => {
+        word = word.toLowerCase();
+        wordFrequency[word] = (wordFrequency[word] || 0) + 1;
+    });
+
+    var sortedWordFrequency = Object.entries(wordFrequency).sort((a, b) => b[1] - a[1]);
+    
+    var frequencyDisplay = sortedWordFrequency.map(([word, count]) => {
+        return `${word}: ${count}`;
+    }).join("<br>");
+
     document.getElementById("result").innerHTML = `
         <strong>Word count:</strong> ${wordCount}<br>
         <strong>Character count (excluding spaces):</strong> ${charCount}<br>
         <strong>Average word length:</strong> ${avgWordLength}<br>
         <strong>Sentence count:</strong> ${sentenceCount}<br>
         <strong>Longest word:</strong> ${longestWord}<br>
-        <strong>Shortest word:</strong> ${shortestWord}
+        <strong>Shortest word:</strong> ${shortestWord}<br><br>
+        <strong>Word Frequency:</strong><br>${frequencyDisplay}
     `;
 }
 
