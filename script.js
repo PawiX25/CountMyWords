@@ -3,6 +3,7 @@ function countWords() {
 
     if (inputText === '') {
         document.getElementById("result").innerHTML = "Please enter some text.";
+        document.getElementById("chartContainer").style.display = 'none';
         return;
     }
 
@@ -15,6 +16,8 @@ function countWords() {
     var longestWord = words.reduce((a, b) => a.length > b.length ? a : b, "");
     var shortestWord = words.reduce((a, b) => a.length < b.length ? a : b, "");
 
+    var avgSentenceLength = sentenceCount > 0 ? (wordCount / sentenceCount).toFixed(2) : 0;
+
     var wordFrequency = {};
     words.forEach(word => {
         word = word.toLowerCase();
@@ -22,33 +25,65 @@ function countWords() {
     });
 
     var sortedWordFrequency = Object.entries(wordFrequency).sort((a, b) => b[1] - a[1]);
-    
+
+    updateChart(sortedWordFrequency);
+
     var frequencyDisplay = sortedWordFrequency.map(([word, count]) => {
         return `${word}: ${count}`;
-    }).join("\n");
+    }).join("<br>");
 
     var resultHtml = `
-        Word count: ${wordCount}\n
-        Character count (excluding spaces): ${charCount}\n
-        Average word length: ${avgWordLength}\n
-        Sentence count: ${sentenceCount}\n
-        Longest word: ${longestWord}\n
-        Shortest word: ${shortestWord}\n\n
-        Word Frequency:\n${frequencyDisplay}
-    `;
-
-    document.getElementById("result").innerHTML = `
         <strong>Word count:</strong> ${wordCount}<br>
         <strong>Character count (excluding spaces):</strong> ${charCount}<br>
         <strong>Average word length:</strong> ${avgWordLength}<br>
         <strong>Sentence count:</strong> ${sentenceCount}<br>
+        <strong>Average sentence length (words):</strong> ${avgSentenceLength}<br>
         <strong>Longest word:</strong> ${longestWord}<br>
         <strong>Shortest word:</strong> ${shortestWord}<br><br>
-        <strong>Word Frequency:</strong><br>${sortedWordFrequency.map(([word, count]) => `${word}: ${count}`).join("<br>")}
+        <strong>Word Frequency:</strong><br>${frequencyDisplay}
     `;
+
+    document.getElementById("result").innerHTML = resultHtml;
+    document.getElementById("input").innerHTML = highlightedText;
+
+    document.getElementById("chartContainer").style.display = 'block'; 
 
     localStorage.setItem('savedText', inputText);
     localStorage.setItem('savedResults', resultHtml);
+}
+
+function updateChart(wordFrequency) {
+    var ctx = document.getElementById('wordFrequencyChart').getContext('2d');
+    var labels = wordFrequency.map(([word]) => word);
+    var data = wordFrequency.map(([, count]) => count);
+
+    if (window.chart) {
+        window.chart.destroy();
+    }
+
+    window.chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Word Frequency',
+                data: data,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    beginAtZero: true
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 }
 
 document.getElementById("input").addEventListener("input", debounce(countWords, 500));
@@ -56,6 +91,7 @@ document.getElementById("countButton").addEventListener("click", countWords);
 document.getElementById("clearButton").addEventListener("click", () => {
     document.getElementById("input").value = '';
     document.getElementById("result").innerHTML = '';
+    document.getElementById("chartContainer").style.display = 'none';
     localStorage.removeItem('savedText');
     localStorage.removeItem('savedResults');
 });
