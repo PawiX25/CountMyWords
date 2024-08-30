@@ -1,6 +1,6 @@
 # CountMyWords
 
-[CountMyWords](https://github.com/PawiX25/CountMyWords) is a simple web application that analyzes text, providing word and character counts, sentence statistics, and word frequency data. It also allows you to export the results as text or PDF files.
+[CountMyWords](https://github.com/PawiX25/CountMyWords) is a simple web application that analyzes text, providing word and character counts, sentence statistics, and word frequency data. It also allows you to export the results as text or PDF files. You can try out the live application [here](https://countmywords.pawix.tech/).
 
 ## Features
 
@@ -34,3 +34,9 @@
    git clone https://github.com/PawiX25/CountMyWords.git
    ```
 2. Open `index.html` in your browser to start using the app.
+
+For a live demo, visit [CountMyWords](https://countmywords.pawix.tech/).
+
+## Screenshot
+
+![CountMyWords Screenshot](https://github.com/user-attachments/assets/8d799415-ca0d-4279-b9df-b6c8d95d2902)
